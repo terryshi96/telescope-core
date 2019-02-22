@@ -31,17 +31,6 @@ class Response
     end
     response
   end
-
-  # def method_missing(method_id, *arguments, &block)
-  #   method_message = *arguments.join
-  #   if (method_id.to_s =~ /^raise_[\w]+/) == 0
-  #     error_type = method_id.to_s.split('raise_')[1].upcase!
-  #     @code = "Response::Code::#{error_type}".constantize
-  #     @message = method_message
-  #     raise StandardError.new(method_message)
-  #   else
-  #     super
-  #   end
-  # end
+  
 end
 

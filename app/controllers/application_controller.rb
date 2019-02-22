@@ -1,16 +1,15 @@
 class ApplicationController < ActionController::Base
-  attr_accessor :current_user
-
-  # disable the CSRF token
-  protect_from_forgery with: :null_session
+  # Prevent CSRF attacks by raising an exception.
+  # For APIs, you may want to use :null_session instead.
+  protect_from_forgery with: :null_session, only: proc { |c| c.request.format.json? }
 
   # disable cookies (no set-cookies header in response)
   before_action :destroy_session
 
-  # disable the CSRF token
-  skip_before_action :verify_authenticity_token
+  # # disable the CSRF token
+  # skip_before_action :verify_authenticity_token
 
-  # before_action :doorkeeper_authorize!
+  before_action :doorkeeper_authorize!
   before_action :authentication_user
 
   def destroy_session

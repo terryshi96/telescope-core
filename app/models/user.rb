@@ -33,7 +33,7 @@ class User < ApplicationRecord
       $redis.set("user_#{object_key}", cache_object) # 缓存拼接的user_session_key
       $redis.expire("user_#{object_key}", 720_000)
     end
-    log response
+    # log response
     [response, user]
   end
 
