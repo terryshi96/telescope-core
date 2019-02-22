@@ -1,0 +1,21 @@
+# encoding: UTF-8
+
+defaults: &defaults
+  status: open
+  host: localhost
+  port: 6379
+  db: 2
+  username: username
+  password: Fy958e5mmyb7Ta4H
+  name_space: dev
+
+development: &development
+  <<: *defaults
+
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
+  name_space: prod
