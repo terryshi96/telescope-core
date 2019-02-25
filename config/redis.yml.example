@@ -6,7 +6,7 @@ defaults: &defaults
   port: 6379
   db: 2
   username: username
-  password: Fy958e5mmyb7Ta4H
+  password:
   name_space: dev
 
 development: &development
