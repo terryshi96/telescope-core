@@ -37,4 +37,16 @@ class User < ApplicationRecord
     [response, user]
   end
 
+  def self.delete_token params
+    response = Response.rescue do |res|
+      User.transaction do
+        user_session_key = params[:user_session_key]
+        res.raise_error('No token found!') if user_session_key.blank?
+        redis_user_key = "user_#{user_session_key}"
+        res.raise_error('Token deleted error') if $redis.del(redis_user_key).to_s != '1'
+      end
+    end
+    response
+  end
+
 end

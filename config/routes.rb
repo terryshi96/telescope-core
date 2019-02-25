@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       resources :users, except: EXCEPT_DEFAULT_ROUTES do
         collection do
           post :sign_in
+          post :sign_out
         end
       end
 

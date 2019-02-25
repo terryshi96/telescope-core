@@ -4,4 +4,8 @@ class Api::V1::UsersController < ApplicationController
   def sign_in
     @response, @user = User.authorize_user params
   end
+
+  def sign_out
+    @response = User.delete_token params
+  end
 end
