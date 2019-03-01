@@ -1,0 +1,2 @@
+class ReceiverGroup < ApplicationRecord
+end
