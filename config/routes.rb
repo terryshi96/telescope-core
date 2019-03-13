@@ -13,6 +13,13 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :domains, except: EXCEPT_DEFAULT_ROUTES do
+        collection do
+          post :create
+          get  :get_domains
+        end
+      end
+
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_25_085705) do
+ActiveRecord::Schema.define(version: 2019_03_13_083209) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 2019_02_25_085705) do
     t.datetime "expire_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", comment: "删除时间"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -66,6 +67,34 @@ ActiveRecord::Schema.define(version: 2019_02_25_085705) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
+  create_table "receiver_groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", comment: "删除时间"
+  end
+
+  create_table "receiver_maps", force: :cascade do |t|
+    t.bigint "receiver_id"
+    t.bigint "receiver_group_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", comment: "删除时间"
+    t.index ["receiver_group_id"], name: "index_receiver_maps_on_receiver_group_id"
+    t.index ["receiver_id"], name: "index_receiver_maps_on_receiver_id"
+  end
+
+  create_table "receivers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "phone"
+    t.string "mail"
+    t.boolean "active", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "deleted_at", comment: "删除时间"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "name"
@@ -75,6 +104,7 @@ ActiveRecord::Schema.define(version: 2019_02_25_085705) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at", comment: "删除时间"
   end
 
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"

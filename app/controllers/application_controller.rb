@@ -9,8 +9,9 @@ class ApplicationController < ActionController::Base
   # # disable the CSRF token
   # skip_before_action :verify_authenticity_token
 
-  before_action :doorkeeper_authorize!
-  before_action :authentication_user
+  # 开发时关闭
+  # before_action :doorkeeper_authorize!
+  # before_action :authentication_user
 
   def destroy_session
     request.session_options[:skip] = true
