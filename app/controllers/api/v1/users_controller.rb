@@ -8,4 +8,8 @@ class Api::V1::UsersController < ApplicationController
   def sign_out
     @response = User.delete_token params
   end
+
+  def create
+    @response = User.add_user params
+  end
 end

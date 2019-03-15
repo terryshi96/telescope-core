@@ -15,18 +15,16 @@ class Domain < ApplicationRecord
   include BaseModelConcern
   # 启用软删除
   acts_as_paranoid
-
   # 数据验证
   validates :url, presence: true, uniqueness: true
-
   # 回调
   after_create :update_expire_days
+  belongs_to :receiver_group
 
   # 类方法
   class << self
     def add_domain params
       response = Response.rescue do |res|
-        # Returns values that were assigned to the given keys
         url = params[:url]
         receiver_group_id = params[:receiver_group_id] || nil
         self.create!(url: url, receiver_group_id: receiver_group_id)
@@ -34,6 +32,7 @@ class Domain < ApplicationRecord
       response
     end
 
+    # 查询接口
     def search_domains params
       domains = []
       response = Response.rescue do |res|
@@ -44,12 +43,22 @@ class Domain < ApplicationRecord
       [response, domains]
     end
 
-    def update_domains params
-
+    def refresh_domain params
+      response = Response.rescue do |res|
+        item = Domain.find_by(id: params[:id])
+        item.update_expire_days
+      end
+      response
     end
 
     def delete_domains params
-
+      response = Response.rescue do |res|
+        url_array = Domain.find(params[:ids])
+        url_array.each do |item|
+          item.destroy
+        end
+      end
+      response
     end
 
   end

@@ -3,8 +3,8 @@ class Api::V1::DomainsController < ApplicationController
     @response = Domain.add_domain params
   end
 
-  def update
-    @response = Domain.update_domains params
+  def refresh
+    @response = Domain.refresh_domain params
   end
 
   def delete

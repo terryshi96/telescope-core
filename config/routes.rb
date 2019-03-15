@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         collection do
           post :sign_in
           post :sign_out
+          post :create
         end
       end
 
@@ -17,6 +18,8 @@ Rails.application.routes.draw do
         collection do
           post :create
           get  :get_domains
+          get  :delete
+          get  :refresh
         end
       end
 
