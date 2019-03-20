@@ -70,3 +70,5 @@ gem 'paranoia', '~> 2.2'
 
 # pagenate
 gem 'kaminari'
+
+gem 'whenever', require: false

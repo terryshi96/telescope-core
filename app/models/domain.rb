@@ -45,20 +45,28 @@ class Domain < ApplicationRecord
 
     def refresh_domain params
       response = Response.rescue do |res|
-        item = Domain.find_by(id: params[:id])
-        item.update_expire_days
+        domain = Domain.find_by(id: params[:id])
+        domain.update_expire_days
       end
       response
     end
 
     def delete_domains params
       response = Response.rescue do |res|
-        url_array = Domain.find(params[:ids])
-        url_array.each do |item|
+        domains = Domain.find(params[:ids])
+        domains.each do |item|
           item.destroy
         end
       end
       response
+    end
+
+    def check_domains
+      domains = Domain.includes(:receiver_group).all
+      domains.each do |item|
+        remained_days = expire_days(get_expire_date item.url)
+
+      end
     end
 
   end

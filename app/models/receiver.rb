@@ -1,25 +1,50 @@
+# == Schema Information
+#
+# Table name: receiver_groups
+#
+#  id                             :integer          not null, primary key
+#  name                           :string
+#  mail                           :string
+#  phone                          :string
+#  active                         :boolean
+#  deleted_at                     :datetime
+#  created_at                     :datetime         not null
+#  updated_at                     :datetime         not null
+
 class Receiver < ApplicationRecord
   include BaseModelConcern
   acts_as_paranoid
   validates :name, presence: true, uniqueness: true
+
   has_many :receiver_maps, dependent: :destroy
   has_many :receiver_groups, through: :receiver_maps
 
   class << self
     def add_receiver params
       response = Response.rescue do |res|
-        name = params[:name]
-        self.create!(name: name)
+        name, mail, phone = params.values_at(:name, :mail, :phone)
+        self.create!(name: name, mail: mail, phone: phone)
       end
       response
     end
 
     def update_receiver params
-
+      response = Response.rescue do |res|
+        id, name, mail, phone = params.values_at(:id, :name, :mail, :phone)
+        receiver = Receiver.find id
+        receiver.update!(name: name, mail: mail, phone: phone)
+      end
+      response
     end
 
     def delete_receivers params
-
+      response = Response.rescue do |res|
+        receivers = Receiver.find(params[:ids])
+        receivers.each do |item|
+          item.destroy
+        end
+      end
+      response
     end
 
     def search_receivers params

@@ -17,6 +17,7 @@ class ReceiverGroup < ApplicationRecord
   has_many :receiver_maps, dependent: :destroy
   has_many :receivers, through: :receiver_maps
   has_many :domains
+
   class << self
     def add_group params
       response = Response.rescue do |res|
@@ -27,11 +28,22 @@ class ReceiverGroup < ApplicationRecord
     end
 
     def update_group params
-
+      response = Response.rescue do |res|
+        id, name = params.values_at(:id, :name)
+        group = ReceiverGroup.find id
+        group.update!(name: name)
+      end
+      response
     end
 
     def delete_groups params
-
+      response = Response.rescue do |res|
+        groups = ReceiverGroup.find(params[:ids])
+        groups.each do |item|
+          item.destroy
+        end
+      end
+      response
     end
 
     def search_groups params
@@ -42,6 +54,16 @@ class ReceiverGroup < ApplicationRecord
         groups = search_by_params(params).page(page).per(per)
       end
       [response, groups]
+    end
+
+    def join_group params
+      response = Response.rescue do |res|
+        receivers = Receiver.find(params[:receiver_ids])
+        group = ReceiverGroup.find(params[:id])
+        group.receivers = receivers
+        group.save!
+      end
+      response
     end
 
   end
