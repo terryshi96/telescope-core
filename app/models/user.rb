@@ -51,7 +51,6 @@ class User < ApplicationRecord
           res.raise_error('Token deleted error') if $redis.del(redis_user_key).to_s != '1'
         end
       end
-      response
     end
 
 

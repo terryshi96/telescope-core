@@ -18,5 +18,19 @@ module MonisslApi
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    require File.expand_path "#{Rails.root}/app/settings/smtp_setting.rb", __FILE__
+    smtp = SmtpSetting.smtp
+    config.action_mailer.smtp_settings = {
+        :address        => smtp.address,
+        :domain         => smtp.domain,
+        :port           => smtp.port,
+        :user_name      => smtp.user_name,
+        :password       => smtp.password,
+        :authentication => smtp.authentication,
+        :enable_starttls_auto => smtp.enable_starttls_auto,
+        :openssl_verify_mode => smtp.openssl_verify_mode
+    }
+    config.encoding = "utf-8"
   end
 end

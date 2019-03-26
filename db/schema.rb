@@ -10,19 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_13_083209) do
+ActiveRecord::Schema.define(version: 2019_03_05_101903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "domains", force: :cascade do |t|
-    t.string "url"
+    t.string "url", null: false
     t.integer "remained_days"
     t.integer "receiver_group_id"
+    t.integer "alert_level"
     t.datetime "expire_date"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at", comment: "删除时间"
+    t.index ["receiver_group_id"], name: "index_domains_on_receiver_group_id"
   end
 
   create_table "oauth_access_grants", force: :cascade do |t|
@@ -70,17 +72,17 @@ ActiveRecord::Schema.define(version: 2019_03_13_083209) do
   create_table "receiver_groups", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "active", default: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at", comment: "删除时间"
   end
 
   create_table "receiver_maps", force: :cascade do |t|
     t.bigint "receiver_id"
     t.bigint "receiver_group_id"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at", comment: "删除时间"
     t.index ["receiver_group_id"], name: "index_receiver_maps_on_receiver_group_id"
     t.index ["receiver_id"], name: "index_receiver_maps_on_receiver_id"
   end
@@ -88,23 +90,27 @@ ActiveRecord::Schema.define(version: 2019_03_13_083209) do
   create_table "receivers", force: :cascade do |t|
     t.string "name", null: false
     t.string "phone"
-    t.string "mail"
+    t.string "email"
     t.boolean "active", default: false
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at", comment: "删除时间"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email"
-    t.string "name"
+    t.string "email", null: false
+    t.string "name", null: false
     t.datetime "activated"
     t.boolean "admin", default: false
     t.string "authentication_token"
     t.string "password_digest"
+    t.integer "login_count"
+    t.datetime "last_login"
+    t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "deleted_at", comment: "删除时间"
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["name"], name: "index_users_on_name"
   end
 
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"

@@ -24,7 +24,7 @@
 #   command "/usr/bin/my_great_command"
 # end
 #
-every 1.day, at: '4:30 am' do
+every 1.day, at: '0:01 am' do
   runner "Domain.check_domains"
 end
 #

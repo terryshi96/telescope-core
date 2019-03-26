@@ -19,7 +19,6 @@ Rails.application.routes.draw do
           post :create
           get  :get_domains
           get  :delete
-          get  :refresh
         end
       end
 

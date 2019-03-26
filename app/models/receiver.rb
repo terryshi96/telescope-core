@@ -4,7 +4,7 @@
 #
 #  id                             :integer          not null, primary key
 #  name                           :string
-#  mail                           :string
+#  email                           :string
 #  phone                          :string
 #  active                         :boolean
 #  deleted_at                     :datetime
@@ -25,7 +25,6 @@ class Receiver < ApplicationRecord
         name, mail, phone = params.values_at(:name, :mail, :phone)
         self.create!(name: name, mail: mail, phone: phone)
       end
-      response
     end
 
     def update_receiver params
@@ -34,7 +33,6 @@ class Receiver < ApplicationRecord
         receiver = Receiver.find id
         receiver.update!(name: name, mail: mail, phone: phone)
       end
-      response
     end
 
     def delete_receivers params
@@ -44,7 +42,6 @@ class Receiver < ApplicationRecord
           item.destroy
         end
       end
-      response
     end
 
     def search_receivers params

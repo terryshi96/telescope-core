@@ -25,3 +25,5 @@
 # Ignore master key for decrypting credentials and more.
 .idea
 config/redis.yml
+config/smtp.yml
+db/seeds.rb

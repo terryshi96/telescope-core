@@ -24,7 +24,6 @@ class ReceiverGroup < ApplicationRecord
         name = params[:name]
         self.create!(name: name)
       end
-      response
     end
 
     def update_group params
@@ -33,7 +32,6 @@ class ReceiverGroup < ApplicationRecord
         group = ReceiverGroup.find id
         group.update!(name: name)
       end
-      response
     end
 
     def delete_groups params
@@ -43,7 +41,6 @@ class ReceiverGroup < ApplicationRecord
           item.destroy
         end
       end
-      response
     end
 
     def search_groups params
@@ -63,7 +60,6 @@ class ReceiverGroup < ApplicationRecord
         group.receivers = receivers
         group.save!
       end
-      response
     end
 
   end
