@@ -5,9 +5,9 @@ class Response
   attr_accessor :code, :message, :error_message
 
   module Code
-    ERROR = 50000
-    SUCCESS = 20000
-    AUTH_ERROR = 50001
+    ERROR = '50000'
+    SUCCESS = '20000'
+    AUTH_ERROR = '50001'
   end
 
   def initialize(code = Code::SUCCESS, message = '', error_message = '')
