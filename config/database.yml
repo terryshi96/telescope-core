@@ -83,6 +83,7 @@ test:
 #
 production:
   <<: *default
-  database: monissl
-  username: monissl
-
+  host: postgres
+  database: telescope
+  username: telescope
+  password: telescope

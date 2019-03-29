@@ -1,0 +1,10 @@
+#dockerignore文件的设计是为了在Docker build的过程中排除不需要用到的文件以及目录，目的是为了Docker build这个过程可以尽可能地快速高效以及构建出来的image没有多余的“垃圾”。
+.git
+.git/*
+.dockerignore
+.gitignore
+Dockerfile
+deployment.yml
+README.md
+data
+data/*

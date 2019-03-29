@@ -7,6 +7,7 @@ class Response
   module Code
     ERROR = 50000
     SUCCESS = 20000
+    AUTH_ERROR = 50001
   end
 
   def initialize(code = Code::SUCCESS, message = '', error_message = '')
@@ -15,8 +16,8 @@ class Response
     @error_message = error_message
   end
 
-  def raise_error(message = '')
-    self.code = Code::ERROR
+  def raise_error(message = '', error_code = Code::ERROR)
+    self.code = error_code
     self.message = message
   end
 

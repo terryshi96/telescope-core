@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
   # skip_before_action :verify_authenticity_token
 
   # 开发时关闭
-  # before_action :doorkeeper_authorize!
-  # before_action :authentication_user
+  before_action :doorkeeper_authorize!
+  before_action :authentication_user
 
   def destroy_session
     request.session_options[:skip] = true
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   def authentication_user
     response = Response.rescue do |res|
       user = current_user
-      res.raise_error('Authenticate failed') unless user.present?
+      res.raise_error('Authenticate failed', Response::Code::AUTH_ERROR) unless user.present?
     end
     render json: {status: response}.to_json unless response.code == Response::Code::SUCCESS
   end

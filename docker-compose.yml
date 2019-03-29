@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  redis:
+    image: redis
+    command: redis-server --requirepass 'Fy958e5mmyb7Ta4H'
+    volumes:
+      - ./data/redis:/data
+
+  postgresql:
+    image: postgres
+    environment:
+      POSTGRES_USER:  telescope
+      POSTGRES_PASSWORD: telescope
+      POSTGRES_DB: telescope
+    ports:
+      - "5052:5432"
+    volumes:
+        - ./data/postgres:/var/lib/postgresql/data
+
+  app:
+    build: .
+    ports:
+      - 5051:3000
+    links:
+      - redis
+      - postgresql
+    volumes:
+      - ./log:/app/log
+
