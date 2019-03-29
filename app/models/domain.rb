@@ -78,7 +78,8 @@ class Domain < ApplicationRecord
     puts self.alert_level_change
     if self.alert_level_changed? and self.receiver_group&.receivers.present?
       # 非持久化异步，待执行任务会被丢弃
-      UserMailer.notice_email(self).deliver_later
+      # UserMailer.notice_email(self).deliver_later
+      UserMailer.notice_email(self).deliver_now
     end
     self.save!
   end
