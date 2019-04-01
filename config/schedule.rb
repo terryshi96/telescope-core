@@ -5,6 +5,8 @@
 
 # Example:
 #
+# https://github.com/javan/whenever/issues/656
+ENV.each { |k, v| env(k, v) }
 set :output, "/var/log/cron.log"
 #
 # every 2.hours do
