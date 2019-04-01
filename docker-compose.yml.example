@@ -27,4 +27,5 @@ services:
       - postgresql
     volumes:
       - ./log:/app/log
-
+      - ./data/syslog:/var/log
+    entrypoint: ./bin/entrypoint.sh

@@ -30,3 +30,4 @@ db/seeds.rb
 data
 syslog
 app/init/*
+docker-compose.yml
