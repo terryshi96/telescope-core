@@ -28,4 +28,5 @@ config/redis.yml
 config/smtp.yml
 db/seeds.rb
 data
+syslog
 app/init/*
