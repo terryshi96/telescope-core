@@ -83,7 +83,7 @@ test:
 #
 production:
   <<: *default
-  host: postgres
+  host: postgresql
   database: telescope
   username: telescope
   password: telescope
