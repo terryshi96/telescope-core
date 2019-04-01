@@ -12,7 +12,7 @@ RUN echo "deb http://mirrors.aliyun.com/debian/ stretch main non-free contrib" >
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime && \
-    mkdir $HOME
+    mkdir $HOME && touch /var/log/cron.log
 WORKDIR $HOME
 COPY Gemfile Gemfile.lock ./
 RUN bundle install
