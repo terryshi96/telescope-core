@@ -1,4 +1,4 @@
 #! /bin/bash
-rsyslog
+rsyslogd
 cron
 puma -C config/puma.rb
