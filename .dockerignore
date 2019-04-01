@@ -8,3 +8,5 @@ deployment.yml
 README.md
 data
 data/*
+log
+log/*
