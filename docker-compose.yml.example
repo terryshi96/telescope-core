@@ -3,7 +3,7 @@ version: '3'
 services:
   redis:
     image: redis
-    command: redis-server --requirepass 'xxxx'
+    command: redis-server --requirepass 'xxxx' --appendonly yes
     volumes:
       - ./data/redis:/data
 
