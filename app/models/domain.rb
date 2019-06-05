@@ -34,37 +34,66 @@ class Domain < ApplicationRecord
   # 类方法
   class << self
     def add_domain params
+      domains = []
+      count = 0
       response = Response.rescue do |res|
         url = params[:url]
         receiver_group_id = params[:receiver_group_id] || nil
         self.create!(url: url, receiver_group_id: receiver_group_id)
+        domains, count = all_domains params
       end
+      [response, domains, count]
     end
 
     # 查询接口
     def search_domains params
       domains = []
+      count = 0
       response = Response.rescue do |res|
         page = params[:page] || 1
-        per = params[:per] || 10
+        per = params[:per] || 5
         domains = search_by_params(params).page(page).per(per)
+        count = Domain.all.count
       end
-      [response, domains]
+      [response, domains, count]
     end
 
     def delete_domains params
+      domains = []
+      count = 0
       response = Response.rescue do |res|
         domains = Domain.find(params[:ids])
         domains.each do |item|
           item.destroy
         end
+        domains, count = all_domains params
       end
+      [response, domains, count]
     end
 
     def check_domains
       Domain.includes(:receiver_group).find_each do |item|
         item.update_expire_days
       end
+    end
+
+    def refresh params
+      domains = []
+      count = 0
+      response = Response.rescue do |res|
+        check_domains
+        domains, count = all_domains params
+      end
+      [response, domains, count]
+    end
+
+
+    def all_domains params
+      page = params[:page] || 1
+      per = params[:per] || 10
+      domains = Domain.all.page(page).per(per)
+      count = Domain.count
+      [domains, count]
     end
 
   end
