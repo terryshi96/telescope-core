@@ -45,6 +45,7 @@ class Domain < ApplicationRecord
       [response, domains, count]
     end
 
+    # TODO
     # 查询接口
     def search_domains params
       domains = []
@@ -52,7 +53,7 @@ class Domain < ApplicationRecord
       response = Response.rescue do |res|
         page = params[:page] || 1
         per = params[:per] || 5
-        domains = search_by_params(params).page(page).per(per)
+        domains = search_by_params(params).joins(:receiver_group).select("domains.id, url, name, expire_date, domains.updated_at, remained_days").order(remained_days: :asc).page(page).per(per)
         count = Domain.all.count
       end
       [response, domains, count]
@@ -91,7 +92,7 @@ class Domain < ApplicationRecord
     def all_domains params
       page = params[:page] || 1
       per = params[:per] || 10
-      domains = Domain.all.page(page).per(per)
+      domains = Domain.joins(:receiver_group).select("domains.id, url, name, expire_date, domains.updated_at, remained_days").order(remained_days: :asc).page(page).per(per)
       count = Domain.count
       [domains, count]
     end
@@ -107,8 +108,8 @@ class Domain < ApplicationRecord
     puts self.alert_level_change
     if self.alert_level_changed? and self.receiver_group&.receivers.present?
       # 非持久化异步，待执行任务会被丢弃
-      # UserMailer.notice_email(self).deliver_later
-      UserMailer.notice_email(self).deliver_now
+      UserMailer.notice_email(self).deliver_later
+      # UserMailer.notice_email(self).deliver_now
     end
     self.save!
   end

@@ -31,3 +31,4 @@ data
 syslog
 app/init/*
 docker-compose.yml
+oauth_applications.sql
