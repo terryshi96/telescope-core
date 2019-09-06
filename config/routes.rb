@@ -6,11 +6,12 @@ Rails.application.routes.draw do
   EXCEPT_DEFAULT_ROUTES = [:index, :new, :create, :show, :edit, :update, :destroy]
   namespace :api do
     namespace :v1 do
-      resources :users, except: EXCEPT_DEFAULT_ROUTES do
+      resources :users do
         collection do
           post :sign_in
           post :sign_out
-          post :create
+          get  :delete
+          get  :get_users
         end
       end
 

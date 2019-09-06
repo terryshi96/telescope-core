@@ -34,15 +34,12 @@ class Domain < ApplicationRecord
   # 类方法
   class << self
     def add_domain params
-      domains = []
-      count = 0
       response = Response.rescue do |res|
         url = params[:url]
         receiver_group_id = params[:receiver_group_id] || nil
         self.create!(url: url, receiver_group_id: receiver_group_id)
-        domains, count = all_domains params
       end
-      [response, domains, count]
+      response
     end
 
     # TODO
@@ -52,7 +49,7 @@ class Domain < ApplicationRecord
       count = 0
       response = Response.rescue do |res|
         page = params[:page] || 1
-        per = params[:per] || 5
+        per = params[:per] || 10
         domains = search_by_params(params).joins(:receiver_group).select("domains.id, url, name, expire_date, domains.updated_at, remained_days").order(remained_days: :asc).page(page).per(per)
         count = Domain.all.count
       end
@@ -60,16 +57,13 @@ class Domain < ApplicationRecord
     end
 
     def delete_domains params
-      domains = []
-      count = 0
       response = Response.rescue do |res|
         domains = Domain.find(params[:ids])
         domains.each do |item|
           item.destroy
         end
-        domains, count = all_domains params
       end
-      [response, domains, count]
+      response
     end
 
     def check_domains
@@ -79,22 +73,10 @@ class Domain < ApplicationRecord
     end
 
     def refresh params
-      domains = []
-      count = 0
       response = Response.rescue do |res|
         check_domains
-        domains, count = all_domains params
       end
-      [response, domains, count]
-    end
-
-
-    def all_domains params
-      page = params[:page] || 1
-      per = params[:per] || 10
-      domains = Domain.joins(:receiver_group).select("domains.id, url, name, expire_date, domains.updated_at, remained_days").order(remained_days: :asc).page(page).per(per)
-      count = Domain.count
-      [domains, count]
+      response
     end
 
   end

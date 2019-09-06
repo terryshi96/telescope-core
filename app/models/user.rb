@@ -1,7 +1,7 @@
 class User < ApplicationRecord
 
   include BaseModelConcern
-
+  acts_as_paranoid
   before_create :generate_authentication_token
   # activemodel方法 需要bcrypt支持
   has_secure_password
@@ -21,7 +21,33 @@ class User < ApplicationRecord
 
   class << self
     def add_user params
+      response = Response.rescue do |res|
+        username, password, email = params[:username], params[:password], params[:email]
+        self.create!(name: username, password: password, email: email)
+      end
+      response
+    end
 
+    def delete_users params
+      response = Response.rescue do |res|
+        users = User.find(params[:ids])
+        users.each do |item|
+          item.destroy
+        end
+      end
+      response
+    end
+
+    def search_users params
+      users = []
+      count = 0
+      response = Response.rescue do |res|
+        page = params[:page] || 1
+        per = params[:per] || 10
+        users = search_by_params(params).page(page).per(per)
+        count = User.all.count
+      end
+      [response, users, count]
     end
 
     def authorize_user params
@@ -54,7 +80,6 @@ class User < ApplicationRecord
     end
 
 
+
   end
-
-
 end

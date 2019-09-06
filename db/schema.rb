@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_05_101903) do
+ActiveRecord::Schema.define(version: 2019_09_06_064352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "alarm_records", force: :cascade do |t|
+    t.string "subject", null: false
+    t.text "content", null: false
+    t.string "status", default: "new"
+    t.datetime "delete_at"
+    t.datetime "last_receive"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subject"], name: "index_alarm_records_on_subject"
+  end
 
   create_table "domains", force: :cascade do |t|
     t.string "url", null: false
@@ -95,6 +106,19 @@ ActiveRecord::Schema.define(version: 2019_03_05_101903) do
     t.datetime "deleted_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "steps", force: :cascade do |t|
+    t.integer "alarm_record_id"
+    t.integer "step_no"
+    t.text "mark"
+    t.integer "user_id"
+    t.string "step_name", default: "new"
+    t.datetime "delete_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["alarm_record_id"], name: "index_steps_on_alarm_record_id"
+    t.index ["user_id"], name: "index_steps_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

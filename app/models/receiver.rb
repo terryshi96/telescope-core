@@ -10,7 +10,7 @@
 #  deleted_at                     :datetime
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
-
+#  报警接收人和用户区分开来，用户是真正处理报警的人
 class Receiver < ApplicationRecord
   include BaseModelConcern
   acts_as_paranoid

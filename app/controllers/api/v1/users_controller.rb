@@ -12,4 +12,12 @@ class Api::V1::UsersController < ApplicationController
   def create
     @response = User.add_user params
   end
+
+  def delete
+    @response = User.delete_users params
+  end
+
+  def get_users
+    @response, @users, @count = User.search_users params
+  end
 end
