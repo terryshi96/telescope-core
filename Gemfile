@@ -31,7 +31,7 @@ gem 'settingslogic', '2.0.9'
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
 
-gem 'doorkeeper', '5.0.2'
+gem 'doorkeeper', '5.0.3'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
